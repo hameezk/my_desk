@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1092789612187",
+    "project_id": "my-desk-c07ab",
+    "storage_bucket": "my-desk-c07ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092789612187:android:dace1e81f010da59d5603e",
+        "android_client_info": {
+          "package_name": "com.example.my_desk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092789612187-pofj5qgffhqemj6anua03cs9necpe330.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBblkUEU9yaoTGHQ0_hJ2mJo3J3z9N-ips"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1092789612187-pofj5qgffhqemj6anua03cs9necpe330.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
