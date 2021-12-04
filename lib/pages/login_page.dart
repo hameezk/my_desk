@@ -86,7 +86,7 @@ class LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               Container(
-                height: 280,
+                height: 250,
                 decoration: BoxDecoration(
                   color: MyColors.pinkRedishColor,
                   borderRadius: const BorderRadius.only(
@@ -94,14 +94,29 @@ class LoginPageState extends State<LoginPage> {
                     bottomRight: Radius.circular(20),
                   ),
                 ),
-                child: const Center(
-                  child: Text(
-                    "My Desk",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white12,
-                    ),
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "My Desk",
+                        style: TextStyle(
+                          fontSize: 40,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Requests & Demands",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -110,7 +125,7 @@ class LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 80,
+                      height: 50,
                     ),
                     TextField(
                       controller: emailController,
@@ -128,16 +143,17 @@ class LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 80,
                     ),
                     CupertinoButton(
+                      color: MyColors.pinkRedishColor,
                       onPressed: () {
                         checkValues();
                       },
                       child: const Text(
                         "Login",
                         style: TextStyle(
-                          color: Colors.blueGrey,
+                          color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

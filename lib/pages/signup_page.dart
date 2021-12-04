@@ -2,10 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:my_desk/misc/colors.dart';
 import 'package:my_desk/models/user_model.dart';
 import 'package:my_desk/pages/complete_profile.dart';
-import 'package:my_desk/pages/login_page.dart';
-
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -100,56 +99,94 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 100,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: 250,
+                decoration: BoxDecoration(
+                  color: MyColors.pinkRedishColor,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
                   ),
-                  TextField(
-                    controller: emailController,
-                    decoration: const InputDecoration(
-                      labelText: "Email Address",
-                      hintText: "Enter Email... ",
+                ),
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "My Desk",
+                        style: TextStyle(
+                          fontSize: 40,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Requests & Demands",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 50,
                     ),
-                  ),
-                  TextField(
-                    controller: passwordController,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: "Password",
-                      hintText: "Enter Password... ",
-                    ),
-                  ),
-                  TextField(
-                    controller: cPasswordController,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: "Password",
-                      hintText: "Confirm Password... ",
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  CupertinoButton(
-                    onPressed: () {
-                      checkValues();
-                    },
-                    child: const Text(
-                      "Signup",
-                      style: TextStyle(
-                        color: Colors.blueGrey,
-                        fontWeight: FontWeight.bold,
+                    TextField(
+                      controller: emailController,
+                      decoration: const InputDecoration(
+                        labelText: "Email Address",
+                        hintText: "Enter Email... ",
                       ),
                     ),
-                  ),
-                ],
+                    TextField(
+                      controller: passwordController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        labelText: "Password",
+                        hintText: "Enter Password... ",
+                      ),
+                    ),
+                    TextField(
+                      controller: cPasswordController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        labelText: "Password",
+                        hintText: "Confirm Password... ",
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 80,
+                    ),
+                    CupertinoButton(
+                      color: MyColors.pinkRedishColor,
+                      onPressed: () {
+                        checkValues();
+                      },
+                      child: const Text(
+                        "Signup",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
@@ -157,7 +194,7 @@ class _SignupPageState extends State<SignupPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
-            children: const [Text("Allready have an account?")],
+            children: const [Text("Dont't have an account?")],
           ),
           CupertinoButton(
             onPressed: () {
@@ -165,12 +202,12 @@ class _SignupPageState extends State<SignupPage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return const LoginPage();
+                    return const SignupPage();
                   },
                 ),
               );
             },
-            child: const Text("Login"),
+            child: const Text("Signup"),
           )
         ],
       ),

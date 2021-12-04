@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:my_desk/misc/colors.dart';
 import 'package:my_desk/models/user_model.dart';
 import 'package:my_desk/pages/home_page.dart';
 
@@ -102,7 +103,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
   void checkValues() {
     String fullName = fullNameController.text.trim();
 
-    if (fullName.isEmpty || imageFile == override || role=="") {
+    if (fullName.isEmpty || imageFile == override || role == "") {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.blueGrey,
@@ -163,7 +164,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.pink[900],
+        backgroundColor: MyColors.pinkRedishColor,
         centerTitle: true,
         title: const Text(
           "Complete Profile",
@@ -172,19 +173,22 @@ class _CompleteProfileState extends State<CompleteProfile> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const SizedBox(
+              height: 30,
+            ),
             CupertinoButton(
               onPressed: () {
                 showImageOptions();
               },
               child: CircleAvatar(
-                backgroundColor: Colors.blueGrey,
-                foregroundColor: Colors.pink[900],
+                backgroundColor: MyColors.pinkRedishColor,
+                foregroundColor: Colors.white,
                 radius: 60,
                 backgroundImage:
                     (imageFile != null) ? FileImage(imageFile!) : null,
                 child: (imageFile == null)
                     ? const Icon(
-                        Icons.person,
+                        CupertinoIcons.person_badge_plus,
                         size: 60,
                       )
                     : null,
@@ -201,15 +205,24 @@ class _CompleteProfileState extends State<CompleteProfile> {
                       decoration: const InputDecoration(
                           labelText: "Full name:", hintText: "Enter full name"),
                     ),
+                    const SizedBox(
+                      height: 30,
+                    ),
                     Center(
-                      child: DropdownButton<String>(
-                        hint: const Text("Select Role"),
-                        value: role,
-                        items: roles.map(buildMenuItem).toList(),
-                        onChanged: (value) => setState(
-                          () {
-                            role = value;
-                          },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            hint: const Text("Select Role"),
+                            value: role,
+                            items: roles.map(buildMenuItem).toList(),
+                            onChanged: (value) => setState(
+                              () {
+                                role = value;
+                              },
+                            ),
+                          ),
                         ),
                       ),
                     )
@@ -217,15 +230,18 @@ class _CompleteProfileState extends State<CompleteProfile> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 30,
+            ),
             CupertinoButton(
+              color: MyColors.pinkRedishColor,
               onPressed: () {
                 checkValues();
               },
               child: const Text(
                 "Submit",
                 style: TextStyle(
-                  color: Colors.blueGrey,
-                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -239,6 +255,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
         value: item,
         child: Text(
           item,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       );
 }
