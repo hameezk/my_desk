@@ -1,14 +1,16 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:my_desk/misc/colors.dart';
 import 'package:my_desk/models/user_model.dart';
-import 'package:my_desk/pages/home_page.dart';
-
+import 'package:my_desk/pages/user_profile.dart';
 
 class EditProfile extends StatefulWidget {
   final UserModel userModel;
@@ -23,10 +25,12 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  var temp = 0;
+  List<String> roles = ["Executive", "Manager", "Staff Person"];
   File? imageFile;
-
+  String? role = "";
   TextEditingController fullNameController = TextEditingController();
-  TextEditingController studentIDController = TextEditingController();
+  TextEditingController roleController = TextEditingController();
 
   void selectImage(ImageSource source) async {
     XFile? selectedImage = await ImagePicker().pickImage(source: source);
@@ -39,7 +43,7 @@ class _EditProfileState extends State<EditProfile> {
     File? croppedImage = await ImageCropper.cropImage(
       sourcePath: file.path,
       aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-      compressQuality: 10,
+      compressQuality: 15,
     );
     if (croppedImage != null) {
       setState(() {
@@ -98,14 +102,13 @@ class _EditProfileState extends State<EditProfile> {
 
   void checkValues() {
     String fullName = fullNameController.text.trim();
-    String studentID = studentIDController.text.trim();
 
-    if (fullName.isEmpty || imageFile == override || studentID.isEmpty) {
+    if (fullName.isEmpty || imageFile == override || role == "") {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.blueGrey,
-          duration: Duration(seconds: 1),
-          content: Text("Please fill all the fields!"),
+        SnackBar(
+          backgroundColor: MyColors.pinkRedishColor,
+          duration: const Duration(seconds: 1),
+          content: const Text("Please fill all the fields!"),
         ),
       );
     } else {
@@ -114,20 +117,20 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   void uploadData() async {
-    UploadTask uploadTask = FirebaseStorage.instance
-        .ref("profilepictures")
-        .child(widget.userModel.uid.toString())
-        .putFile(imageFile!);
+    if (temp == 1) {
+      UploadTask uploadTask = FirebaseStorage.instance
+          .ref("profilepictures")
+          .child(widget.userModel.uid.toString())
+          .putFile(imageFile!);
+      TaskSnapshot snapshot = await uploadTask;
+      String imageUrl = await snapshot.ref.getDownloadURL();
+      widget.userModel.profilePic = imageUrl;
+    }
 
-    TaskSnapshot snapshot = await uploadTask;
-
-    String imageUrl = await snapshot.ref.getDownloadURL();
     String fullname = fullNameController.text.trim();
-    
-
     widget.userModel.fullName = fullname;
-    widget.userModel.profilePic = imageUrl;
 
+    widget.userModel.role = role;
 
     await FirebaseFirestore.instance
         .collection("users")
@@ -136,17 +139,17 @@ class _EditProfileState extends State<EditProfile> {
         .then(
       (value) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Colors.blueGrey,
-            duration: Duration(seconds: 1),
-            content: Text("Profile Updated"),
+          SnackBar(
+            backgroundColor: MyColors.pinkRedishColor,
+            duration: const Duration(seconds: 1),
+            content: const Text("Profile Updated"),
           ),
         );
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return HomePage(
+              return UserProfile(
                   userModel: widget.userModel,
                   firebaseUser: widget.firebaseUser);
             },
@@ -158,11 +161,13 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+    (role == "") ? role = widget.userModel.role : null;
+    fullNameController.text = widget.userModel.fullName.toString();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        backgroundColor: MyColors.pinkRedishColor,
         centerTitle: true,
-        backgroundColor: Colors.pink[900],
         title: const Text(
           "Edit Profile",
         ),
@@ -170,21 +175,22 @@ class _EditProfileState extends State<EditProfile> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const SizedBox(
+              height: 30,
+            ),
             CupertinoButton(
               onPressed: () {
+                temp = 1;
                 showImageOptions();
               },
               child: CircleAvatar(
-                backgroundColor: Colors.blueGrey,
-                foregroundColor: Colors.blueAccent,
+                backgroundColor: MyColors.pinkRedishColor,
+                foregroundColor: Colors.white,
                 radius: 60,
                 backgroundImage:
                     (imageFile != null) ? FileImage(imageFile!) : null,
-                child: (imageFile == null)
-                    ? const Icon(
-                        Icons.person,
-                        size: 60,
-                      )
+                foregroundImage: (imageFile == null)
+                    ? NetworkImage(widget.userModel.profilePic!)
                     : null,
               ),
             ),
@@ -196,30 +202,46 @@ class _EditProfileState extends State<EditProfile> {
                   children: [
                     TextField(
                       controller: fullNameController,
-                      
                       decoration: const InputDecoration(
                           labelText: "Full name:", hintText: "Enter full name"),
                     ),
-                    TextField(
-                      controller: studentIDController, 
-                      decoration: const InputDecoration(
-                          labelText: "Student ID:",
-                          hintText: "Enter student ID:"),
-                          
+                    const SizedBox(
+                      height: 30,
                     ),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            hint: const Text("Select Role"),
+                            value: role,
+                            items: roles.map(buildMenuItem).toList(),
+                            onChanged: (value) => setState(
+                              () {
+                                role = value;
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
             ),
+            const SizedBox(
+              height: 30,
+            ),
             CupertinoButton(
+              color: MyColors.pinkRedishColor,
               onPressed: () {
                 checkValues();
               },
               child: const Text(
                 "Submit",
                 style: TextStyle(
-                  color: Colors.blueGrey,
-                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -228,4 +250,12 @@ class _EditProfileState extends State<EditProfile> {
       ),
     );
   }
+
+  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
+        value: item,
+        child: Text(
+          item,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+      );
 }

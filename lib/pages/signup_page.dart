@@ -25,18 +25,18 @@ class _SignupPageState extends State<SignupPage> {
 
     if (email.isEmpty || password.isEmpty || cPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.blueGrey,
-          duration: Duration(seconds: 1),
-          content: Text("Please fill all the fields!"),
+        SnackBar(
+          backgroundColor: MyColors.pinkRedishColor,
+          duration: const Duration(seconds: 1),
+          content: const Text("Please fill all the fields!"),
         ),
       );
     } else if (password != cPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.blueGrey,
-          duration: Duration(seconds: 1),
-          content: Text("Passwords donot match!"),
+        SnackBar(
+          backgroundColor: MyColors.pinkRedishColor,
+          duration: const Duration(seconds: 1),
+          content: const Text("Passwords donot match!"),
         ),
       );
     } else {
@@ -53,7 +53,7 @@ class _SignupPageState extends State<SignupPage> {
     } on FirebaseAuthException catch (ex) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: MyColors.pinkRedishColor,
           duration: const Duration(seconds: 1),
           content: Text(ex.code.toString()),
         ),
@@ -75,10 +75,10 @@ class _SignupPageState extends State<SignupPage> {
           .then(
         (value) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              backgroundColor: Colors.blueGrey,
-              duration: Duration(seconds: 1),
-              content: Text("New user created!"),
+            SnackBar(
+              backgroundColor: MyColors.pinkRedishColor,
+              duration: const Duration(seconds: 1),
+              content: const Text("New user created!"),
             ),
           );
           Navigator.push(

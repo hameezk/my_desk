@@ -105,10 +105,10 @@ class _CompleteProfileState extends State<CompleteProfile> {
 
     if (fullName.isEmpty || imageFile == override || role == "") {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.blueGrey,
-          duration: Duration(seconds: 1),
-          content: Text("Please fill all the fields!"),
+        SnackBar(
+          backgroundColor: MyColors.pinkRedishColor,
+          duration: const Duration(seconds: 1),
+          content: const Text("Please fill all the fields!"),
         ),
       );
     } else {
@@ -126,7 +126,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
 
     String imageUrl = await snapshot.ref.getDownloadURL();
     String fullname = fullNameController.text.trim();
-    String role = roleController.text.trim();
 
     widget.userModel.fullName = fullname;
     widget.userModel.profilePic = imageUrl;
@@ -139,10 +138,10 @@ class _CompleteProfileState extends State<CompleteProfile> {
         .then(
       (value) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Colors.blueGrey,
-            duration: Duration(seconds: 1),
-            content: Text("Profile Updated"),
+          SnackBar(
+            backgroundColor: MyColors.pinkRedishColor,
+            duration: const Duration(seconds: 1),
+            content: const Text("Profile Updated"),
           ),
         );
         Navigator.push(

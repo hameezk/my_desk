@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:my_desk/misc/colors.dart';
 import 'package:my_desk/models/chat_room_model.dart';
 import 'package:my_desk/models/message_model.dart';
 import 'package:my_desk/models/user_model.dart';
-import 'package:my_desk/pages/user_profile.dart';
+import 'package:my_desk/pages/viewer_profile.dart';
 
 import '../main.dart';
 
@@ -73,10 +74,10 @@ class _ChatRoomState extends State<ChatRoom> {
                       .then(
                     (value) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          backgroundColor: Colors.blueGrey,
-                          duration: Duration(seconds: 1),
-                          content: Text("User rated successfully!"),
+                        SnackBar(
+                          backgroundColor: MyColors.pinkRedishColor,
+                          duration: const Duration(seconds: 1),
+                          content: const Text("User rated successfully!"),
                         ),
                       );
                     },
@@ -122,9 +123,12 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: MyColors.pinkRedishColor,
         title: Row(
           children: [
             CircleAvatar(
+              radius: 20,
               child: const CircularProgressIndicator(
                 color: Colors.blueGrey,
               ),
@@ -138,6 +142,7 @@ class _ChatRoomState extends State<ChatRoom> {
             Text(
               widget.targetUser.fullName.toString(),
               style: const TextStyle(fontSize: 18),
+              maxLines: 2,
             )
           ],
         ),
@@ -149,9 +154,11 @@ class _ChatRoomState extends State<ChatRoom> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return UserProfile(
-                        userModel: widget.targetUser,
-                        firebaseUser: widget.firebaseUser);
+                    return ViewProfile(
+                      userModel: widget.userModel,
+                      firebaseUser: widget.firebaseUser,
+                      targetUserModel: widget.targetUser,
+                    );
                   },
                 ),
               );
@@ -219,7 +226,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(20),
-                                          color: Colors.blueAccent,
+                                          color: Colors.blueGrey,
                                         ),
                                         child:
                                             Text(currentMessage.text.toString(),
@@ -229,6 +236,9 @@ class _ChatRoomState extends State<ChatRoom> {
                                                 )),
                                       ),
                                     ],
+                                  ),
+                                  leading: const CircleAvatar(
+                                    backgroundColor: Colors.transparent,
                                   ),
                                 )
                               //  FOR TARGET USER
@@ -253,7 +263,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(20),
-                                          color: Colors.blueGrey,
+                                          color: MyColors.pinkRedishColor,
                                         ),
                                         child:
                                             Text(currentMessage.text.toString(),
@@ -263,6 +273,9 @@ class _ChatRoomState extends State<ChatRoom> {
                                                 )),
                                       ),
                                     ],
+                                  ),
+                                  trailing: const CircleAvatar(
+                                    backgroundColor: Colors.transparent,
                                   ),
                                 );
                         },

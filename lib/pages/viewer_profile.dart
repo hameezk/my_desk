@@ -6,20 +6,22 @@ import 'package:my_desk/models/user_model.dart';
 import 'package:my_desk/pages/edit_profile.dart';
 import 'package:my_desk/pages/home_page.dart';
 
-class UserProfile extends StatefulWidget {
+class ViewProfile extends StatefulWidget {
+  final UserModel targetUserModel;
   final UserModel userModel;
   final User firebaseUser;
-  const UserProfile({
+  const ViewProfile({
     Key? key,
     required this.userModel,
     required this.firebaseUser,
+    required this.targetUserModel,
   }) : super(key: key);
 
   @override
-  _UserProfileState createState() => _UserProfileState();
+  _ViewProfileState createState() => _ViewProfileState();
 }
 
-class _UserProfileState extends State<UserProfile> {
+class _ViewProfileState extends State<ViewProfile> {
   double avg(List<dynamic>? list) {
     double res = 0;
     double sum = 0;
@@ -74,33 +76,10 @@ class _UserProfileState extends State<UserProfile> {
                                     color: MyColors.darkGreyColor,
                                   ),
                                   backgroundColor: Colors.transparent,
-                                  foregroundImage: NetworkImage(
-                                      widget.userModel.profilePic.toString()),
+                                  foregroundImage: NetworkImage(widget
+                                      .targetUserModel.profilePic
+                                      .toString()),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextButton(
-                                      child: const Text(
-                                        "Change profile",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return EditProfile(
-                                                  userModel: widget.userModel,
-                                                  firebaseUser:
-                                                      widget.firebaseUser);
-                                            },
-                                          ),
-                                        );
-                                      }),
-                                )
                               ],
                             ),
                           );
@@ -113,8 +92,8 @@ class _UserProfileState extends State<UserProfile> {
                         color: Colors.blueGrey,
                       ),
                       backgroundColor: Colors.transparent,
-                      foregroundImage:
-                          NetworkImage(widget.userModel.profilePic.toString()),
+                      foregroundImage: NetworkImage(
+                          widget.targetUserModel.profilePic.toString()),
                     ),
                   ),
                   Row(
@@ -139,25 +118,27 @@ class _UserProfileState extends State<UserProfile> {
                           size: 30,
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return EditProfile(
-                                    userModel: widget.userModel,
-                                    firebaseUser: widget.firebaseUser);
+                      (widget.userModel.role == "Manager")
+                          ? IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return EditProfile(
+                                          userModel: widget.userModel,
+                                          firebaseUser: widget.firebaseUser);
+                                    },
+                                  ),
+                                );
                               },
-                            ),
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.settings,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                      ),
+                              icon: const Icon(
+                                Icons.settings,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                            )
+                          : Container(),
                     ],
                   )
                 ],
@@ -180,7 +161,7 @@ class _UserProfileState extends State<UserProfile> {
                       Row(
                         children: [
                           Text(
-                            widget.userModel.fullName.toString(),
+                            widget.targetUserModel.fullName.toString(),
                             maxLines: 3,
                             style: TextStyle(
                               fontSize: 35,
@@ -195,7 +176,7 @@ class _UserProfileState extends State<UserProfile> {
                           width: 2,
                         ),
                         Text(
-                          widget.userModel.email.toString(),
+                          widget.targetUserModel.email.toString(),
                           maxLines: 1,
                           style: TextStyle(
                             fontSize: 18,
@@ -221,14 +202,14 @@ class _UserProfileState extends State<UserProfile> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Designation: ${widget.userModel.role}",
+                          "Designation: ${widget.targetUserModel.role}",
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        (widget.userModel.role == "Staff Person")
+                        (widget.targetUserModel.role == "Staff Person")
                             ? Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 10),
@@ -242,7 +223,7 @@ class _UserProfileState extends State<UserProfile> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        "${avg(widget.userModel.stars)}",
+                                        "${avg(widget.targetUserModel.stars)}",
                                         style: TextStyle(
                                           color: MyColors.darkGreyColor,
                                           fontSize: 15,

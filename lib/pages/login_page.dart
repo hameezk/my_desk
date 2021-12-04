@@ -24,10 +24,10 @@ class LoginPageState extends State<LoginPage> {
 
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.blueGrey,
-          duration: Duration(seconds: 1),
-          content: Text("Please fill all the fields!"),
+        SnackBar(
+          backgroundColor: MyColors.pinkRedishColor,
+          duration: const Duration(seconds: 1),
+          content: const Text("Please fill all the fields!"),
         ),
       );
     } else {
@@ -44,7 +44,7 @@ class LoginPageState extends State<LoginPage> {
     } on FirebaseAuthException catch (ex) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: MyColors.pinkRedishColor,
           duration: const Duration(seconds: 3),
           content: Text(ex.message.toString()),
         ),
@@ -60,10 +60,10 @@ class LoginPageState extends State<LoginPage> {
           UserModel.fromMap(userData.data() as Map<String, dynamic>);
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.blueGrey,
-          duration: Duration(seconds: 1),
-          content: Text("Login successfull!"),
+        SnackBar(
+          backgroundColor: MyColors.pinkRedishColor,
+          duration: const Duration(seconds: 1),
+          content: const Text("Login successfull!"),
         ),
       );
       Navigator.push(

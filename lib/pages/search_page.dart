@@ -4,10 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_desk/misc/colors.dart';
 import 'package:my_desk/models/chat_room_model.dart';
 import 'package:my_desk/models/user_model.dart';
 import 'package:my_desk/pages/chat_room.dart';
-import 'package:my_desk/pages/user_profile.dart';
+import 'package:my_desk/pages/viewer_profile.dart';
 
 import '../main.dart';
 
@@ -66,6 +67,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: MyColors.pinkRedishColor,
         centerTitle: true,
         elevation: 0.0,
         title: const Text(
@@ -188,10 +190,12 @@ class _SearchPageState extends State<SearchPage> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) {
-                                                  return UserProfile(
-                                                    userModel: searchedUser,
+                                                  return ViewProfile(
+                                                    userModel: widget.userModel,
                                                     firebaseUser:
                                                         widget.firebaseUser,
+                                                    targetUserModel:
+                                                        searchedUser,
                                                   );
                                                 },
                                               ),
