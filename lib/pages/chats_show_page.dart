@@ -7,6 +7,7 @@ import 'package:my_desk/models/chat_room_model.dart';
 import 'package:my_desk/models/firebase_helper.dart';
 import 'package:my_desk/models/user_model.dart';
 import 'package:my_desk/pages/chat_room.dart';
+import 'package:my_desk/pages/drawer.dart';
 import 'package:my_desk/pages/home_page.dart';
 import 'package:my_desk/pages/search_page.dart';
 import 'package:my_desk/pages/viewer_profile.dart';
@@ -30,27 +31,6 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         backgroundColor: MyColors.pinkRedishColor,
         title: const Text("Chats"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return HomePage(
-                        userModel: widget.userModel,
-                        firebaseUser: widget.firebaseUser);
-                  },
-                ),
-              );
-            },
-            icon: const Icon(
-              Icons.home,
-              color: Colors.white,
-              size: 30,
-            ),
-          ),
-        ],
       ),
       body: SafeArea(
         child: StreamBuilder(
@@ -174,6 +154,10 @@ class _ChatPageState extends State<ChatPage> {
           }));
         },
         child: const Icon(Icons.search),
+      ),
+      drawer: MyDrawer(
+        firebaseUser: widget.firebaseUser,
+        userModel: widget.userModel,
       ),
     );
   }
