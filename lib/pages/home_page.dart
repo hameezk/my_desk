@@ -3,12 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_desk/misc/colors.dart';
 import 'package:my_desk/models/user_model.dart';
-import 'package:my_desk/pages/chats_show_page.dart';
 import 'package:my_desk/pages/drawer.dart';
-import 'package:my_desk/pages/inventory.dart';
-import 'package:my_desk/pages/user_profile.dart';
 
-import 'login_page.dart';
 
 class HomePage extends StatefulWidget {
   final UserModel userModel;

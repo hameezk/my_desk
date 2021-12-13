@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_desk/misc/colors.dart';
+import 'package:my_desk/models/add_item.dart';
 import 'package:my_desk/models/item_model.dart';
 import 'package:my_desk/models/user_model.dart';
 import 'package:my_desk/pages/drawer.dart';
@@ -18,6 +20,23 @@ class InventoryPage extends StatefulWidget {
 }
 
 class _InventoryPageState extends State<InventoryPage> {
+  Future<ItemModel?> getItemModel(ItemModel itemModel) async {
+    ItemModel? itemModel;
+
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection("inventory").get();
+
+    if (snapshot.docs.isNotEmpty) {
+      var docData = snapshot.docs[0].data();
+      ItemModel existingItem =
+          ItemModel.fromMap(docData as Map<String, dynamic>);
+      itemModel = existingItem;
+    } else {
+      const Text("Add some items!");
+    }
+    return itemModel;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -68,6 +87,76 @@ class _InventoryPageState extends State<InventoryPage> {
             const SizedBox(
               height: 15,
             ),
+            Expanded(
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection("inventory")
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.active) {
+                    if (snapshot.hasData) {
+                      QuerySnapshot dataSnapshot =
+                          snapshot.data as QuerySnapshot;
+                      if (dataSnapshot.docs.isNotEmpty) {
+                        return ListView.builder(
+                            itemCount: dataSnapshot.docs.length,
+                            itemBuilder: (context, index) {
+                              Map<String, dynamic> userMap =
+                                  dataSnapshot.docs[index].data()
+                                      as Map<String, dynamic>;
+
+                              ItemModel itemModel = ItemModel.fromMap(userMap);
+                              if (itemModel.itemName!.isEmpty) {
+                                return ListTile(
+                                  leading: const Text("{count}."),
+                                  title: Text(
+                                    itemModel.itemName!,
+                                    style: TextStyle(
+                                      color: MyColors.pinkRedishColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                    itemModel.qty!,
+                                    style: TextStyle(
+                                      color: MyColors.pinkRedishColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                return Container();
+                              }
+                            });
+                      } else {
+                        return const Text(
+                          "No results found!",
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                          ),
+                        );
+                      }
+                    } else if (snapshot.hasError) {
+                      return const Text(
+                        "An error occoured!",
+                        style: TextStyle(
+                          color: Colors.blueGrey,
+                        ),
+                      );
+                    } else {
+                      return const Text(
+                        "No results found!",
+                        style: TextStyle(
+                          color: Colors.blueGrey,
+                        ),
+                      );
+                    }
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
+            )
           ],
         ),
         bottomNavigationBar: SizedBox(
@@ -86,7 +175,16 @@ class _InventoryPageState extends State<InventoryPage> {
                   ),
                   child: const Text("Add Item"),
                   onPressed: () {
-                    
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return AddItem(
+                              userModel: widget.userModel,
+                              firebaseUser: widget.firebaseUser);
+                        },
+                      ),
+                    );
                   },
                 ),
               ),

@@ -8,7 +8,6 @@ import 'package:my_desk/models/firebase_helper.dart';
 import 'package:my_desk/models/user_model.dart';
 import 'package:my_desk/pages/chat_room.dart';
 import 'package:my_desk/pages/drawer.dart';
-import 'package:my_desk/pages/home_page.dart';
 import 'package:my_desk/pages/search_page.dart';
 import 'package:my_desk/pages/viewer_profile.dart';
 
