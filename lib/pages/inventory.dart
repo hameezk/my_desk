@@ -7,6 +7,8 @@ import 'package:my_desk/models/add_item.dart';
 import 'package:my_desk/models/item_model.dart';
 import 'package:my_desk/models/user_model.dart';
 import 'package:my_desk/pages/drawer.dart';
+import 'package:my_desk/pages/edit_inventory.dart';
+import 'package:my_desk/pages/item_details.dart';
 
 class InventoryPage extends StatefulWidget {
   final UserModel userModel;
@@ -85,7 +87,7 @@ class _InventoryPageState extends State<InventoryPage> {
               ),
             ),
             const SizedBox(
-              height: 15,
+              height: 5,
             ),
             Expanded(
               child: StreamBuilder(
@@ -99,35 +101,68 @@ class _InventoryPageState extends State<InventoryPage> {
                           snapshot.data as QuerySnapshot;
                       if (dataSnapshot.docs.isNotEmpty) {
                         return ListView.builder(
-                            itemCount: dataSnapshot.docs.length,
-                            itemBuilder: (context, index) {
-                              Map<String, dynamic> userMap =
-                                  dataSnapshot.docs[index].data()
-                                      as Map<String, dynamic>;
-
-                              ItemModel itemModel = ItemModel.fromMap(userMap);
-                              if (itemModel.itemName!.isEmpty) {
-                                return ListTile(
-                                  leading: const Text("{count}."),
-                                  title: Text(
-                                    itemModel.itemName!,
-                                    style: TextStyle(
-                                      color: MyColors.pinkRedishColor,
-                                      fontWeight: FontWeight.bold,
+                          itemCount: dataSnapshot.docs.length,
+                          itemBuilder: (context, index) {
+                            Map<String, dynamic> userMap =
+                                dataSnapshot.docs[index].data()
+                                    as Map<String, dynamic>;
+                            ItemModel itemModel = ItemModel.fromMap(userMap);
+                            if (itemModel.itemName!.isNotEmpty) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 04, horizontal: 10),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: MyColors.pinkRedishColor,
+                                    borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
                                     ),
                                   ),
-                                  trailing: Text(
-                                    itemModel.qty!,
-                                    style: TextStyle(
-                                      color: MyColors.pinkRedishColor,
-                                      fontWeight: FontWeight.bold,
+                                  child: ListTile(
+                                    onLongPress: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return ItemDetails(
+                                              userModel: widget.userModel,
+                                              firebaseUser: widget.firebaseUser,
+                                              itemModel: itemModel,
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    leading: Text(
+                                      "${index + 1}.",
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    title: Text(
+                                      itemModel.itemName!,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    trailing: Text(
+                                      "${itemModel.qty!}   ",
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                );
-                              } else {
-                                return Container();
-                              }
-                            });
+                                ),
+                              );
+                            } else {
+                              return Container();
+                            }
+                          },
+                        );
                       } else {
                         return const Text(
                           "No results found!",
@@ -198,7 +233,18 @@ class _InventoryPageState extends State<InventoryPage> {
                         MyColors.pinkRedishColor),
                   ),
                   child: const Text("Edit Inventory"),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return EditINventory(
+                              userModel: widget.userModel,
+                              firebaseUser: widget.firebaseUser);
+                        },
+                      ),
+                    );
+                  },
                 ),
               ),
               const SizedBox(

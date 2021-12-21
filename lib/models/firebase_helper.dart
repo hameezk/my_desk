@@ -17,12 +17,11 @@ class FirebaseHelper {
   static Future<ItemModel?> getItemModelById(String uid) async {
     ItemModel? itemModel;
     DocumentSnapshot docsnap =
-        await FirebaseFirestore.instance.collection("users").doc(uid).get();
+        await FirebaseFirestore.instance.collection("inventory").doc(uid).get();
 
     if (docsnap.data() != null) {
       itemModel = ItemModel.fromMap(docsnap.data() as Map<String, dynamic>);
     }
     return itemModel;
   }
-
 }

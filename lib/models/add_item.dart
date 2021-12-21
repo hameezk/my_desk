@@ -86,30 +86,37 @@ class _AddItemState extends State<AddItem> {
           "Add Item",
         ),
       ),
-      body: Column(
-        children: [
-          TextField(
-            controller: itemController,
-            decoration: const InputDecoration(
-                labelText: "Item name:", hintText: "Enter Item name"),
-          ),
-          TextField(
-            controller: qtyController,
-            decoration: const InputDecoration(
-                labelText: "Quantity:", hintText: "Enter Item quantity"),
-          ),
-          ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(MyColors.pinkRedishColor),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: itemController,
+              decoration: const InputDecoration(
+                  labelText: "Item name:", hintText: "Enter Item name"),
             ),
-            child: const Text("Add Item"),
-            onPressed: () {
-              checkValues(
-                  itemController.text.trim(), qtyController.text.trim());
-            },
-          ),
-        ],
+            TextField(
+              controller: qtyController,
+              decoration: const InputDecoration(
+                  labelText: "Quantity:", hintText: "Enter Item quantity"),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(MyColors.pinkRedishColor),
+              ),
+              child: const Text("Add Item"),
+              onPressed: () {
+                checkValues(
+                    itemController.text.trim(), qtyController.text.trim());
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -126,8 +126,8 @@ class _MyDrawerState extends State<MyDrawer> {
                   Card(
                     child: ListTile(
                       onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
+                        Navigator.popUntil(context, (route) => route.isFirst);
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) {
