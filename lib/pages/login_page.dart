@@ -66,6 +66,7 @@ class LoginPageState extends State<LoginPage> {
           content: const Text("Login successfull!"),
         ),
       );
+      Navigator.popUntil(context, (route) => route.isFirst);
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -173,6 +174,7 @@ class LoginPageState extends State<LoginPage> {
           ),
           CupertinoButton(
             onPressed: () {
+              
               Navigator.push(
                 context,
                 MaterialPageRoute(

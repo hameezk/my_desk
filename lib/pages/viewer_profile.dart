@@ -101,6 +101,7 @@ class _ViewProfileState extends State<ViewProfile> {
                     children: [
                       IconButton(
                         onPressed: () {
+                          Navigator.popUntil(context, (route) => route.isFirst);
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

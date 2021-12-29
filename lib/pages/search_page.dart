@@ -95,13 +95,14 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                     hintText: "Enter Email...",
                   ),
+                  onChanged: (value) => setState(() {}),
                 ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () {
-                    setState(() {});
-                  },
-                ),
+                // trailing: IconButton(
+                //   icon: const Icon(Icons.search),
+                //   onPressed: () {
+                //     setState(() {});
+                //   },
+                // ),
               ),
             ),
             const SizedBox(

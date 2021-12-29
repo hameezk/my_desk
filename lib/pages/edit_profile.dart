@@ -10,7 +10,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_desk/misc/colors.dart';
 import 'package:my_desk/models/user_model.dart';
-import 'package:my_desk/pages/user_profile.dart';
+import 'package:my_desk/pages/home_page.dart';
 
 class EditProfile extends StatefulWidget {
   final UserModel userModel;
@@ -145,11 +145,12 @@ class _EditProfileState extends State<EditProfile> {
             content: const Text("Profile Updated"),
           ),
         );
+        Navigator.popUntil(context, (route) => route.isFirst);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return UserProfile(
+              return HomePage(
                   userModel: widget.userModel,
                   firebaseUser: widget.firebaseUser);
             },

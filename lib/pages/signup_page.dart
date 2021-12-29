@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_desk/misc/colors.dart';
 import 'package:my_desk/models/user_model.dart';
 import 'package:my_desk/pages/complete_profile.dart';
+import 'package:my_desk/pages/login_page.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -194,7 +195,7 @@ class _SignupPageState extends State<SignupPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
-            children: const [Text("Dont't have an account?")],
+            children: const [Text("Already have an account?")],
           ),
           CupertinoButton(
             onPressed: () {
@@ -202,12 +203,12 @@ class _SignupPageState extends State<SignupPage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return const SignupPage();
+                    return const LoginPage();
                   },
                 ),
               );
             },
-            child: const Text("Signup"),
+            child: const Text("Login"),
           )
         ],
       ),
