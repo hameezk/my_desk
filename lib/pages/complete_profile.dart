@@ -144,7 +144,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
             content: const Text("Profile Updated"),
           ),
         );
-        Navigator.push(
+        Navigator.popUntil(context, (route) => route.isFirst);
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) {

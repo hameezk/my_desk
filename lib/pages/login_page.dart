@@ -67,7 +67,7 @@ class LoginPageState extends State<LoginPage> {
         ),
       );
       Navigator.popUntil(context, (route) => route.isFirst);
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) {
@@ -174,7 +174,6 @@ class LoginPageState extends State<LoginPage> {
           ),
           CupertinoButton(
             onPressed: () {
-              
               Navigator.push(
                 context,
                 MaterialPageRoute(

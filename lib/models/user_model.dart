@@ -1,6 +1,3 @@
-// ignore for this file: file_names
-// ignore_for_file: file_names
-
 class UserModel {
   String? uid;
   String? fullName;
