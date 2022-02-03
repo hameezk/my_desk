@@ -66,8 +66,6 @@ class _SignupPageState extends State<SignupPage> {
       UserModel newUser = UserModel(
         uid: uid,
         email: email,
-        fullName: "",
-        profilePic: "",
       );
       await FirebaseFirestore.instance
           .collection("users")

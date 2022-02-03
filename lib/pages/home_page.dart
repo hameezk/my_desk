@@ -6,6 +6,7 @@ import 'package:my_desk/models/user_model.dart';
 import 'package:my_desk/pages/chats_show_page.dart';
 import 'package:my_desk/pages/edit_profile.dart';
 import 'package:my_desk/pages/inventory.dart';
+import 'package:my_desk/pages/job_stream.dart';
 import 'package:my_desk/pages/login_page.dart';
 import 'package:my_desk/pages/search_page.dart';
 
@@ -44,16 +45,23 @@ class _HomePageState extends State<HomePage> {
             child: Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "My Desk",
                     style: TextStyle(
                       fontSize: 40,
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
+                  ),
+                  Text(
+                    "(${widget.userModel.role})",
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -103,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                               color: MyColors.pinkRedishColor,
                               fontWeight: FontWeight.w400,
-                              fontSize: 13,
+                              fontSize: 12.5,
                             ),
                           ),
                         ],
@@ -160,7 +168,19 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 Center(
                                   child: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return JobStream(
+                                                userModel: widget.userModel,
+                                                firebaseUser:
+                                                    widget.firebaseUser);
+                                          },
+                                        ),
+                                      );
+                                    },
                                     icon: Icon(
                                       Icons.work,
                                       size: 50,
@@ -295,7 +315,7 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                               color: MyColors.pinkRedishColor,
                               fontWeight: FontWeight.w400,
-                              fontSize: 14,
+                              fontSize: 13,
                             ),
                           ),
                         ],

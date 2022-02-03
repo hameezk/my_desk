@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_desk/misc/colors.dart';
-import 'package:my_desk/models/add_item.dart';
+import 'package:my_desk/pages/add_item.dart';
 import 'package:my_desk/models/item_model.dart';
 import 'package:my_desk/models/user_model.dart';
 import 'package:my_desk/pages/drawer.dart';
