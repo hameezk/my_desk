@@ -73,6 +73,7 @@ class _CreateJobState extends State<CreateJob> {
       item = requestedModel!.itemId;
     }
     JobModel createdJob = JobModel(
+      completed: false,
       jobId: uuid.v1(),
       jobType: jobType,
       jobDescribtion: decsController.text.trim(),
