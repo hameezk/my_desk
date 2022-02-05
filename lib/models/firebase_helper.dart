@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:my_desk/models/job_model.dart';
 import 'package:my_desk/models/user_model.dart';
 import 'package:my_desk/models/item_model.dart';
 
@@ -23,5 +24,16 @@ class FirebaseHelper {
       itemModel = ItemModel.fromMap(docsnap.data() as Map<String, dynamic>);
     }
     return itemModel;
+  }
+
+  static Future<JobModel?> getJobModelById(String uid) async {
+    JobModel? jobModel;
+    DocumentSnapshot docsnap =
+        await FirebaseFirestore.instance.collection("Jobs").doc(uid).get();
+
+    if (docsnap.data() != null) {
+      jobModel = JobModel.fromMap(docsnap.data() as Map<String, dynamic>);
+    }
+    return jobModel;
   }
 }

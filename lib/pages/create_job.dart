@@ -73,6 +73,7 @@ class _CreateJobState extends State<CreateJob> {
       item = requestedModel!.itemId;
     }
     JobModel createdJob = JobModel(
+      accepted: false,
       completed: false,
       jobId: uuid.v1(),
       jobType: jobType,

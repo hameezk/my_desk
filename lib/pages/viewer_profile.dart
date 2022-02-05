@@ -47,7 +47,8 @@ class _ViewProfileState extends State<ViewProfile> {
       body: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
             alignment: Alignment.bottomLeft,
             height: 190,
             decoration: BoxDecoration(
@@ -55,7 +56,8 @@ class _ViewProfileState extends State<ViewProfile> {
               color: MyColors.pinkRedishColor,
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -101,7 +103,8 @@ class _ViewProfileState extends State<ViewProfile> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          Navigator.popUntil(context, (route) => route.isFirst);
+                          Navigator.popUntil(
+                              context, (route) => route.isFirst);
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -212,8 +215,8 @@ class _ViewProfileState extends State<ViewProfile> {
                         ),
                         (widget.targetUserModel.role == "Staff Person")
                             ? Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10),
                                 child: Container(
                                   height: 30,
                                   width: 40,
@@ -221,7 +224,8 @@ class _ViewProfileState extends State<ViewProfile> {
                                       borderRadius: BorderRadius.circular(20),
                                       color: Colors.amberAccent),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
                                     children: [
                                       Text(
                                         "${avg(widget.targetUserModel.stars)}",

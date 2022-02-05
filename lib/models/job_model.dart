@@ -12,6 +12,7 @@ class JobModel {
   String? jobPerson;
   Timestamp? completedOn;
   bool? completed = false;
+  bool? accepted = false;
 
   JobModel({
     this.completedOn,
@@ -25,6 +26,7 @@ class JobModel {
     this.urgent,
     this.completed,
     this.qty,
+    this.accepted,
   });
 
   JobModel.fromMap(Map<String, dynamic> map) {
@@ -39,6 +41,7 @@ class JobModel {
     urgent = map["urgent"];
     completed = map["completed"];
     qty = map["qty"];
+    accepted = map["accepted"];
   }
 
   Map<String, dynamic> toMap() {
@@ -54,6 +57,7 @@ class JobModel {
       "urgent": urgent,
       "completed": completed,
       "qty": qty,
+      "accepted": accepted,
     };
   }
 }

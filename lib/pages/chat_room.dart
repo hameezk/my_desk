@@ -34,62 +34,7 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
   TextEditingController messageController = TextEditingController();
 
-  Future<void> rateUser(BuildContext context) async {
-    UserModel ratingUser = widget.targetUser;
-    return await showDialog(
-      context: (context),
-      builder: (context) {
-        return AlertDialog(
-          contentPadding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-          title: const Text(
-            "Rate user",
-            style: TextStyle(
-              color: Colors.blueGrey,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          content: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-            child: RatingBar.builder(
-              itemBuilder: (context, _) => const Icon(
-                Icons.star,
-                color: Colors.yellow,
-              ),
-              onRatingUpdate: (rating) {
-                setState(
-                  () {
-                    ratingUser.stars.add(rating);
-                  },
-                );
-              },
-            ),
-          ),
-          actions: [
-            TextButton(
-                onPressed: () async {
-                  await FirebaseFirestore.instance
-                      .collection("users")
-                      .doc(ratingUser.uid)
-                      .set(ratingUser.toMap())
-                      .then(
-                    (value) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: MyColors.pinkRedishColor,
-                          duration: const Duration(seconds: 1),
-                          content: const Text("User rated successfully!"),
-                        ),
-                      );
-                    },
-                  );
-                  Navigator.pop(context);
-                },
-                child: const Text("OK"))
-          ],
-        );
-      },
-    );
-  }
+  
 
   void sendMessage() async {
     String msg = messageController.text.trim();
@@ -168,16 +113,7 @@ class _ChatRoomState extends State<ChatRoom> {
               size: 30.0,
             ),
           ),
-          IconButton(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            onPressed: () async {
-              await rateUser(context);
-            },
-            icon: const Icon(
-              Icons.star_border_outlined,
-              size: 30.0,
-            ),
-          ),
+          
         ],
       ),
       body: SafeArea(

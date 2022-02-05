@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_desk/misc/colors.dart';
 import 'package:my_desk/models/user_model.dart';
+import 'package:my_desk/pages/available_jobs_stream.dart';
 import 'package:my_desk/pages/chats_show_page.dart';
 import 'package:my_desk/pages/edit_profile.dart';
 import 'package:my_desk/pages/inventory.dart';
@@ -176,6 +177,18 @@ class _HomePageState extends State<HomePage> {
                                           MaterialPageRoute(
                                             builder: (context) {
                                               return JobStream(
+                                                  userModel: widget.userModel,
+                                                  firebaseUser:
+                                                      widget.firebaseUser);
+                                            },
+                                          ),
+                                        );
+                                      } else {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return AvailableJobs(
                                                   userModel: widget.userModel,
                                                   firebaseUser:
                                                       widget.firebaseUser);

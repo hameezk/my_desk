@@ -1,28 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_desk/misc/colors.dart';
 import 'package:my_desk/models/firebase_helper.dart';
 import 'package:my_desk/models/job_model.dart';
 import 'package:my_desk/models/user_model.dart';
-import 'package:my_desk/pages/create_job.dart';
-import 'package:my_desk/pages/drawer.dart';
-import 'package:my_desk/pages/job_details_page.dart';
+import 'package:my_desk/pages/available_job_details.dart';
 
-class JobStream extends StatefulWidget {
+class AvailableJobs extends StatefulWidget {
   final UserModel userModel;
   final User firebaseUser;
-  const JobStream(
+  const AvailableJobs(
       {Key? key, required this.userModel, required this.firebaseUser})
       : super(key: key);
 
   @override
-  _JobStreamState createState() => _JobStreamState();
+  State<AvailableJobs> createState() => _AvailableJobsState();
 }
 
-class _JobStreamState extends State<JobStream> {
+class _AvailableJobsState extends State<AvailableJobs> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -35,7 +32,7 @@ class _JobStreamState extends State<JobStream> {
           bottom: const TabBar(
             tabs: [
               Tab(
-                text: "Sheduled",
+                text: "Available",
               ),
               Tab(
                 text: "In-Progress",
@@ -52,7 +49,7 @@ class _JobStreamState extends State<JobStream> {
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection("Jobs")
-                    .where("jobOrigin", isEqualTo: widget.userModel.uid)
+                    .where("accepted", isEqualTo: false)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.active) {
@@ -92,7 +89,7 @@ class _JobStreamState extends State<JobStream> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) {
-                                                  return JobDetails(
+                                                  return AvailableJobDetails(
                                                       userModel:
                                                           widget.userModel,
                                                       jobModel: jobModel);
@@ -162,10 +159,7 @@ class _JobStreamState extends State<JobStream> {
                       );
                     } else {
                       return const Center(
-                        child: Text(
-                          "No Jobs",
-                          style: TextStyle(color: Colors.black),
-                        ),
+                        child: Text("No Jobs"),
                       );
                     }
                   } else {
@@ -180,7 +174,8 @@ class _JobStreamState extends State<JobStream> {
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection("Jobs")
-                    .where("jobOrigin", isEqualTo: widget.userModel.uid)
+                    .where("jobPerson", isEqualTo: widget.userModel.uid)
+                    .where("accepted", isEqualTo: true)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.active) {
@@ -202,10 +197,10 @@ class _JobStreamState extends State<JobStream> {
                               if (userData.connectionState ==
                                   ConnectionState.done) {
                                 if (userData.data != null) {
-                                  if (jobModel.jobPerson != null &&
-                                      jobModel.completed == false) {
+                                  if (jobModel.completed == false) {
                                     return Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 04, horizontal: 10),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: MyColors.pinkRedishColor,
@@ -220,10 +215,10 @@ class _JobStreamState extends State<JobStream> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) {
-                                                  return JobDetails(
-                                                      userModel:
-                                                          widget.userModel,
-                                                      jobModel: jobModel);
+                                                  return AvailableJobDetails(
+                                                    userModel: widget.userModel,
+                                                    jobModel: jobModel,
+                                                  );
                                                 },
                                               ),
                                             );
@@ -235,16 +230,16 @@ class _JobStreamState extends State<JobStream> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          // subtitle: Text(
-                                          //   DateFormat("dd-MM-yyyy (hh:mm)")
-                                          //       .format(jobModel.createdOn!
-                                          //           .toDate())
-                                          //       .toString(),
-                                          //   style: const TextStyle(
-                                          //     color: Colors.white38,
-                                          //     fontWeight: FontWeight.w400,
-                                          //   ),
-                                          // ),
+                                          subtitle: Text(
+                                            DateFormat("dd-MM-yyyy (hh:mm)")
+                                                .format(jobModel.createdOn!
+                                                    .toDate())
+                                                .toString(),
+                                            style: const TextStyle(
+                                              color: Colors.white38,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
                                           trailing: (jobModel.urgent!)
                                               ? Container(
                                                   height: 35,
@@ -305,7 +300,8 @@ class _JobStreamState extends State<JobStream> {
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection("Jobs")
-                    .where("jobOrigin", isEqualTo: widget.userModel.uid)
+                    .where("jobPerson", isEqualTo: widget.userModel.uid)
+                    .where("completed", isEqualTo: true)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.active) {
@@ -345,7 +341,7 @@ class _JobStreamState extends State<JobStream> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) {
-                                                  return JobDetails(
+                                                  return AvailableJobDetails(
                                                     userModel: widget.userModel,
                                                     jobModel: jobModel,
                                                   );
@@ -424,33 +420,6 @@ class _JobStreamState extends State<JobStream> {
               ),
             ),
           ],
-        ),
-        drawer: MyDrawer(
-            userModel: widget.userModel, firebaseUser: widget.firebaseUser),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CupertinoButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return CreateJob(
-                      userModel: widget.userModel,
-                    );
-                  },
-                ),
-              );
-            },
-            child: Text(
-              "Create New Job",
-              style: TextStyle(
-                color: MyColors.pinkRedishColor,
-                fontSize: 18,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-          ),
         ),
       ),
     );
