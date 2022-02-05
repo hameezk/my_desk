@@ -22,9 +22,23 @@ class _JobDetailsState extends State<JobDetails> {
   TextEditingController decsController = TextEditingController();
 
   Future<void> deleteJob(String id) async {
+    if (widget.jobModel.jobType == "Inventory Request") {
+      await updateItemQuantity();
+    }
     await FirebaseFirestore.instance.collection("Jobs").doc(id).delete().then(
           (value) => Navigator.pop(context),
         );
+  }
+
+  Future<void> updateItemQuantity() async {
+    ItemModel? requestedModel =
+        await FirebaseHelper.getItemModelById(widget.jobModel.requestedItem!);
+    int newQty = (int.parse(requestedModel!.qty!)) + widget.jobModel.qty!;
+    requestedModel.qty = "$newQty";
+    await FirebaseFirestore.instance
+        .collection("inventory")
+        .doc(requestedModel.itemId)
+        .set(requestedModel.toMap());
   }
 
   @override
@@ -158,45 +172,30 @@ class _JobDetailsState extends State<JobDetails> {
                   )
                 : Container(),
             (widget.jobModel.jobType == "Inventory Request")
-                ? FutureBuilder(
-                    future: FirebaseHelper.getItemModelById(
-                        widget.jobModel.requestedItem!),
-                    builder: (context, userData) {
-                      if (userData.connectionState == ConnectionState.done) {
-                        if (userData.data != null) {
-                          ItemModel requestedItem = userData.data as ItemModel;
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(),
-                              ),
-                              child: ListTile(
-                                leading: Text(
-                                  "Requested Quantity: ",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: MyColors.pinkRedishColor,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                title: Text(
-                                  requestedItem.qty!,
-                                  style: TextStyle(
-                                    color: MyColors.pinkRedishColor,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        } else {
-                          return Container();
-                        }
-                      } else {
-                        return Container();
-                      }
-                    },
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(),
+                      ),
+                      child: ListTile(
+                        leading: Text(
+                          "Requested Quantity: ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: MyColors.pinkRedishColor,
+                            fontSize: 20,
+                          ),
+                        ),
+                        title: Text(
+                          widget.jobModel.qty.toString(),
+                          style: TextStyle(
+                            color: MyColors.pinkRedishColor,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ),
                   )
                 : Container(),
             (widget.jobModel.urgent!)

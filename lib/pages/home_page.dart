@@ -169,17 +169,20 @@ class _HomePageState extends State<HomePage> {
                                 Center(
                                   child: IconButton(
                                     onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return JobStream(
-                                                userModel: widget.userModel,
-                                                firebaseUser:
-                                                    widget.firebaseUser);
-                                          },
-                                        ),
-                                      );
+                                      if (widget.userModel.role ==
+                                          "Executive") {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return JobStream(
+                                                  userModel: widget.userModel,
+                                                  firebaseUser:
+                                                      widget.firebaseUser);
+                                            },
+                                          ),
+                                        );
+                                      }
                                     },
                                     icon: Icon(
                                       Icons.work,

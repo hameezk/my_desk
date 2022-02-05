@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_desk/misc/colors.dart';
 import 'package:my_desk/models/firebase_helper.dart';
 import 'package:my_desk/models/job_model.dart';
 import 'package:my_desk/models/user_model.dart';
 import 'package:my_desk/pages/create_job.dart';
+import 'package:my_desk/pages/drawer.dart';
 import 'package:my_desk/pages/job_details_page.dart';
 
 class JobStream extends StatefulWidget {
@@ -73,25 +75,73 @@ class _JobStreamState extends State<JobStream> {
                                   ConnectionState.done) {
                                 if (userData.data != null) {
                                   if (jobModel.jobPerson == null) {
-                                    return ListTile(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return JobDetails(
-                                                  userModel: widget.userModel,
-                                                  jobModel: jobModel);
-                                            },
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 04, horizontal: 10),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: MyColors.pinkRedishColor,
+                                          borderRadius: const BorderRadius.only(
+                                            bottomLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20),
                                           ),
-                                        );
-                                      },
-                                      title: Text(jobModel.jobType!),
-                                      subtitle:
-                                          const Text("Status: \"waiting\""),
-                                      trailing: (jobModel.urgent!)
-                                          ? const Text("Urgent")
-                                          : const Text(""),
+                                        ),
+                                        child: ListTile(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) {
+                                                  return JobDetails(
+                                                      userModel:
+                                                          widget.userModel,
+                                                      jobModel: jobModel);
+                                                },
+                                              ),
+                                            );
+                                          },
+                                          title: Text(
+                                            jobModel.jobType!,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          subtitle: Text(
+                                            DateFormat("dd-MM-yyyy (hh:mm)")
+                                                .format(jobModel.createdOn!
+                                                    .toDate())
+                                                .toString(),
+                                            style: const TextStyle(
+                                              color: Colors.white38,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          trailing: (jobModel.urgent!)
+                                              ? Container(
+                                                  height: 35,
+                                                  width: 55,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      color:
+                                                          Colors.amberAccent),
+                                                  child: Center(
+                                                    child: Text(
+                                                      "Urgent",
+                                                      style: TextStyle(
+                                                        color: MyColors
+                                                            .darkGreyColor,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : const Text(""),
+                                        ),
+                                      ),
                                     );
                                   } else {
                                     if (index == 0) {
@@ -307,6 +357,8 @@ class _JobStreamState extends State<JobStream> {
             ),
           ],
         ),
+        drawer: MyDrawer(
+            userModel: widget.userModel, firebaseUser: widget.firebaseUser),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(8.0),
           child: CupertinoButton(
