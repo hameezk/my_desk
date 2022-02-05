@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_desk/misc/colors.dart';
 import 'package:my_desk/models/firebase_helper.dart';
 import 'package:my_desk/models/item_model.dart';
@@ -272,6 +273,34 @@ class _JobDetailsState extends State<JobDetails> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 55,
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                ),
+                child: ListTile(
+                  leading: Text(
+                    "Created On: ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: MyColors.pinkRedishColor,
+                      fontSize: 20,
+                    ),
+                  ),
+                  title: Text(
+                    DateFormat("dd-MM-yyyy (hh:mm)")
+                        .format(widget.jobModel.createdOn!.toDate())
+                        .toString(),
+                    style: TextStyle(
+                      color: MyColors.pinkRedishColor,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
                   Text(
@@ -340,6 +369,36 @@ class _JobDetailsState extends State<JobDetails> {
                       ),
                     ),
                   ),
+            (widget.jobModel.completedOn != null)
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 55,
+                      decoration: BoxDecoration(
+                        border: Border.all(),
+                      ),
+                      child: ListTile(
+                        leading: Text(
+                          "Created On: ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: MyColors.pinkRedishColor,
+                            fontSize: 20,
+                          ),
+                        ),
+                        title: Text(
+                          DateFormat("dd-MM-yyyy (hh:mm)")
+                              .format(widget.jobModel.createdOn!.toDate())
+                              .toString(),
+                          style: TextStyle(
+                            color: MyColors.pinkRedishColor,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),
