@@ -10,6 +10,8 @@ import 'package:my_desk/pages/inventory.dart';
 import 'package:my_desk/pages/job_stream.dart';
 import 'package:my_desk/pages/login_page.dart';
 import 'package:my_desk/pages/search_page.dart';
+import 'package:my_desk/pages/signup_page.dart';
+import 'package:my_desk/pages/total_jobs.dart';
 
 import 'package:my_desk/pages/user_profile.dart';
 
@@ -76,7 +78,7 @@ class _HomePageState extends State<HomePage> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: SizedBox(
-                height: 230,
+                height: 330,
                 child: GridView.count(
                   crossAxisCount: 3,
                   children: [
@@ -376,6 +378,91 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
+                    (widget.userModel.role == "Manager")
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Center(
+                                  child: IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return TotalJobStream(
+                                                userModel: widget.userModel,
+                                                firebaseUser:
+                                                    widget.firebaseUser);
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Icons.work,
+                                      size: 50,
+                                      color: MyColors.pinkRedishColor,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "     Jobs",
+                                  style: TextStyle(
+                                    color: MyColors.pinkRedishColor,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Container(),
+                    (widget.userModel.role == "Manager")
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Center(
+                                  child: IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return const SignupPage();
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Icons.person_add,
+                                      size: 50,
+                                      color: MyColors.pinkRedishColor,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "        Sign Up",
+                                  style: TextStyle(
+                                    color: MyColors.pinkRedishColor,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ),

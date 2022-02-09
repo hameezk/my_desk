@@ -166,27 +166,27 @@ class LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            children: const [Text("Dont't have an account?")],
-          ),
-          CupertinoButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const SignupPage();
-                  },
-                ),
-              );
-            },
-            child: const Text("Signup"),
-          )
-        ],
-      ),
+      // bottomNavigationBar: Row(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: [
+      //     Row(
+      //       children: const [Text("Dont't have an account?")],
+      //     ),
+      //     CupertinoButton(
+      //       onPressed: () {
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) {
+      //               return const SignupPage();
+      //             },
+      //           ),
+      //         );
+      //       },
+      //       child: const Text("Signup"),
+      //     )
+      //   ],
+      // ),
     );
   }
 }

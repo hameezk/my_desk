@@ -130,6 +130,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                   SizedBox(
                     width: 30,
                     child: TextField(
+                      keyboardType: TextInputType.number,
                       style: TextStyle(
                         color: MyColors.pinkRedishColor,
                         fontSize: 20,

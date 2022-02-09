@@ -189,27 +189,27 @@ class _SignupPageState extends State<SignupPage> {
           ),
         ),
       ),
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            children: const [Text("Already have an account?")],
-          ),
-          CupertinoButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const LoginPage();
-                  },
-                ),
-              );
-            },
-            child: const Text("Login"),
-          )
-        ],
-      ),
+      // bottomNavigationBar: Row(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: [
+      //     Row(
+      //       children: const [Text("Already have an account?")],
+      //     ),
+      //     CupertinoButton(
+      //       onPressed: () {
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) {
+      //               return const LoginPage();
+      //             },
+      //           ),
+      //         );
+      //       },
+      //       child: const Text("Login"),
+      //     )
+      //   ],
+      // ),
     );
   }
 }
